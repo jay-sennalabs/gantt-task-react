@@ -300,7 +300,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
     return () => {
       svgElement.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, [svg, selectedTask, setSelectedTask]);
+  }, [selectedTask]);
 
   return (
     <g className="content">
