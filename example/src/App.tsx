@@ -1,14 +1,50 @@
 import React from "react";
-import { Task, ViewMode, Gantt } from "gantt-task-react";
+import { Task, ViewMode, Gantt, DateFormatter } from "gantt-task-react";
 import { ViewSwitcher } from "./components/view-switcher";
 import { getStartEndDateForProject, initTasks } from "./helper";
 import "gantt-task-react/dist/index.css";
+
+// Custom Thai Date Formatter
+const thaiDateFormatter: DateFormatter = {
+  formatDay: (date: Date) => {
+    const thaiDays = ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."];
+    return `${thaiDays[date.getDay()]} ${date.getDate()}`;
+  },
+  formatMonth: (date: Date) => {
+    const thaiMonths = [
+      "ม.ค.",
+      "ก.พ.",
+      "มี.ค.",
+      "เม.ย.",
+      "พ.ค.",
+      "มิ.ย.",
+      "ก.ค.",
+      "ส.ค.",
+      "ก.ย.",
+      "ต.ค.",
+      "พ.ย.",
+      "ธ.ค.",
+    ];
+    return thaiMonths[date.getMonth()];
+  },
+  formatYear: (date: Date) => {
+    return `${date.getFullYear() + 543}`;
+  },
+  formatWeek: (date: Date) => {
+    const week = Math.ceil(date.getDate() / 7);
+    return `สัปดาห์ ${week}`;
+  },
+  formatHour: (date: Date) => {
+    return `${date.getHours()}:00 น.`;
+  },
+};
 
 // Init
 const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
+  const [useThaiFormat, setUseThaiFormat] = React.useState(false);
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -74,7 +110,14 @@ const App = () => {
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
-      <h3>Gantt With Unlimited Height</h3>
+      <div style={{ marginBottom: "10px" }}>
+        <button onClick={() => setUseThaiFormat(!useThaiFormat)}>
+          {useThaiFormat
+            ? "Switch to English Format"
+            : "Switch to Thai Format (ภาษาไทย)"}
+        </button>
+      </div>
+      <h3>Gantt With Unlimited Height {useThaiFormat && "(Thai Format)"}</h3>
       <Gantt
         tasks={tasks}
         viewMode={view}
@@ -87,8 +130,9 @@ const App = () => {
         onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
+        dateFormatter={useThaiFormat ? thaiDateFormatter : undefined}
       />
-      <h3>Gantt With Limited Height</h3>
+      <h3>Gantt With Limited Height {useThaiFormat && "(Thai Format)"}</h3>
       <Gantt
         tasks={tasks}
         viewMode={view}
@@ -102,6 +146,7 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         ganttHeight={300}
         columnWidth={columnWidth}
+        dateFormatter={useThaiFormat ? thaiDateFormatter : undefined}
       />
     </div>
   );

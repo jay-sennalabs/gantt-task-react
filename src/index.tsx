@@ -6,4 +6,5 @@ export type {
   StylingOption,
   DisplayOption,
   EventOption,
+  DateFormatter,
 } from "./types/public-types";

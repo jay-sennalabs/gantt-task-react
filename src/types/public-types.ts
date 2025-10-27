@@ -74,6 +74,44 @@ export interface EventOption {
   onExpanderClick?: (task: Task) => void;
 }
 
+export interface DateFormatter {
+  /**
+   * Custom formatter for day display
+   * @param date - The date to format
+   * @param locale - Current locale setting
+   * @returns Formatted string
+   */
+  formatDay?: (date: Date, locale: string) => string;
+  /**
+   * Custom formatter for month display
+   * @param date - The date to format
+   * @param locale - Current locale setting
+   * @returns Formatted string
+   */
+  formatMonth?: (date: Date, locale: string) => string;
+  /**
+   * Custom formatter for year display
+   * @param date - The date to format
+   * @param locale - Current locale setting
+   * @returns Formatted string
+   */
+  formatYear?: (date: Date, locale: string) => string;
+  /**
+   * Custom formatter for week display
+   * @param date - The date to format
+   * @param locale - Current locale setting
+   * @returns Formatted string
+   */
+  formatWeek?: (date: Date, locale: string) => string;
+  /**
+   * Custom formatter for hour display
+   * @param date - The date to format
+   * @param locale - Current locale setting
+   * @returns Formatted string
+   */
+  formatHour?: (date: Date, locale: string) => string;
+}
+
 export interface DisplayOption {
   viewMode?: ViewMode;
   viewDate?: Date;
@@ -83,6 +121,10 @@ export interface DisplayOption {
    */
   locale?: string;
   rtl?: boolean;
+  /**
+   * Custom date formatters for calendar display
+   */
+  dateFormatter?: DateFormatter;
 }
 
 export interface StylingOption {
