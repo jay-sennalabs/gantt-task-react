@@ -21,6 +21,16 @@ export type TaskItemProps = {
     selectedTask: BarTask,
     event?: React.MouseEvent | React.KeyboardEvent
   ) => any;
+  taskBarHeight?: number;
+  taskBarStrokeWidth?: number;
+  taskBarStrokeColor?: string;
+  taskBarSelectedStrokeColor?: string;
+  taskBarBackgroundColor?: string;
+  taskBarSelectedBackgroundColor?: string;
+  taskBarProgressColor?: string;
+  taskBarSelectedProgressColor?: string;
+  hideTaskName?: boolean;
+  hideTaskNameOnShortTasks?: boolean;
 };
 
 export const TaskItem: React.FC<TaskItemProps> = props => {
@@ -32,6 +42,8 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
     isSelected,
     rtl,
     onEventStart,
+    hideTaskName,
+    hideTaskNameOnShortTasks,
   } = {
     ...props,
   };
@@ -108,18 +120,20 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
       }}
     >
       {taskItem}
-      <text
-        x={getX()}
-        y={task.y + taskHeight * 0.5}
-        className={
-          isTextInside
-            ? style.barLabel
-            : style.barLabel && style.barLabelOutside
-        }
-        ref={textRef}
-      >
-        {task.name}
-      </text>
+      {!hideTaskName && !(hideTaskNameOnShortTasks && isTextInside) && (
+        <text
+          x={getX()}
+          y={task.y + taskHeight * 0.5}
+          className={
+            isTextInside
+              ? style.barLabel
+              : style.barLabel && style.barLabelOutside
+          }
+          ref={textRef}
+        >
+          {task.name}
+        </text>
+      )}
     </g>
   );
 };

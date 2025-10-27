@@ -1,5 +1,6 @@
 .calendarBottomText {
   text-anchor: middle;
+  dominant-baseline: middle;
   fill: #333;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -15,7 +16,9 @@
 
 .calendarTopText {
   text-anchor: middle;
+  dominant-baseline: middle;
   fill: #555;
+  font-weight: bold;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -28,6 +31,11 @@
   fill: #ffffff;
   stroke: #e0e0e0;
   stroke-width: 1.4;
+}
+
+.calendarHeaderSeparator {
+  stroke: #e0e0e0;
+  stroke-width: 1;
 }
 
 .calendarTodayHeader {

@@ -18,6 +18,14 @@ type BarDisplayProps = {
     progressSelectedColor: string;
   };
   onMouseDown: (event: React.MouseEvent<SVGPolygonElement, MouseEvent>) => void;
+  taskBarHeight?: number;
+  taskBarStrokeWidth?: number;
+  taskBarStrokeColor?: string;
+  taskBarSelectedStrokeColor?: string;
+  taskBarBackgroundColor?: string;
+  taskBarSelectedBackgroundColor?: string;
+  taskBarProgressColor?: string;
+  taskBarSelectedProgressColor?: string;
 };
 export const BarDisplay: React.FC<BarDisplayProps> = ({
   x,
@@ -30,32 +38,56 @@ export const BarDisplay: React.FC<BarDisplayProps> = ({
   barCornerRadius,
   styles,
   onMouseDown,
+  taskBarHeight,
+  taskBarStrokeWidth,
+  taskBarStrokeColor,
+  taskBarSelectedStrokeColor,
+  taskBarBackgroundColor,
+  taskBarSelectedBackgroundColor,
+  taskBarProgressColor,
+  taskBarSelectedProgressColor,
 }) => {
   const getProcessColor = () => {
-    return isSelected ? styles.progressSelectedColor : styles.progressColor;
+    return isSelected
+      ? taskBarSelectedProgressColor || styles.progressSelectedColor
+      : taskBarProgressColor || styles.progressColor;
   };
 
   const getBarColor = () => {
-    return isSelected ? styles.backgroundSelectedColor : styles.backgroundColor;
+    return isSelected
+      ? taskBarSelectedBackgroundColor || styles.backgroundSelectedColor
+      : taskBarBackgroundColor || styles.backgroundColor;
   };
+
+  const getStrokeColor = () => {
+    return isSelected
+      ? taskBarSelectedStrokeColor || taskBarStrokeColor
+      : taskBarStrokeColor;
+  };
+
+  const actualHeight = taskBarHeight || height;
+  const strokeWidth = taskBarStrokeWidth !== undefined ? taskBarStrokeWidth : 0;
+  const yPosition = y + (height - actualHeight) / 2;
 
   return (
     <g onMouseDown={onMouseDown}>
       <rect
         x={x}
         width={width}
-        y={y}
-        height={height}
+        y={yPosition}
+        height={actualHeight}
         ry={barCornerRadius}
         rx={barCornerRadius}
         fill={getBarColor()}
+        stroke={getStrokeColor()}
+        strokeWidth={strokeWidth}
         className={style.barBackground}
       />
       <rect
         x={progressX}
         width={progressWidth}
-        y={y}
-        height={height}
+        y={yPosition}
+        height={actualHeight}
         ry={barCornerRadius}
         rx={barCornerRadius}
         fill={getProcessColor()}

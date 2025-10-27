@@ -177,28 +177,30 @@ All formatters are optional. If not provided, default formatting will be used.
 ```typescript
 <Gantt
   tasks={tasks}
-  showTodayColor={true}                    // Show/hide column highlight (default: true)
-  todayColor="rgba(252, 248, 227, 0.5)"   // Column highlight color
-  todayHeaderColor="#ffeb3b"               // Header highlight color (optional)
+  showTodayColor={true} // Show/hide column highlight (default: true)
+  todayColor="rgba(252, 248, 227, 0.5)" // Column highlight color
+  todayHeaderColor="#ffeb3b" // Header highlight color (optional)
 />
 ```
 
 #### Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `showTodayColor` | boolean | `true` | Enable/disable today column highlight |
-| `todayColor` | string | `"rgba(252, 248, 227, 0.5)"` | Background color for today's column |
-| `todayHeaderColor` | string | `undefined` | Background color for today's date in header (Day view) |
+| Option             | Type    | Default                      | Description                                            |
+| ------------------ | ------- | ---------------------------- | ------------------------------------------------------ |
+| `showTodayColor`   | boolean | `true`                       | Enable/disable today column highlight                  |
+| `todayColor`       | string  | `"rgba(252, 248, 227, 0.5)"` | Background color for today's column                    |
+| `todayHeaderColor` | string  | `undefined`                  | Background color for today's date in header (Day view) |
 
 #### Examples
 
 **Disable today column highlight:**
+
 ```typescript
 <Gantt tasks={tasks} showTodayColor={false} />
 ```
 
 **Custom colors:**
+
 ```typescript
 <Gantt
   tasks={tasks}
@@ -208,13 +210,45 @@ All formatters are optional. If not provided, default formatting will be used.
 ```
 
 **Header-only highlight:**
+
+```typescript
+<Gantt tasks={tasks} showTodayColor={false} todayHeaderColor="#4CAF50" />
+```
+
+### Custom Task Bar Styling
+
+**New Feature!** Fine-grained control over task bar appearance.
+
+#### Basic Usage
+
 ```typescript
 <Gantt
   tasks={tasks}
-  showTodayColor={false}
-  todayHeaderColor="#4CAF50"
+  taskBarHeight={32}
+  taskBarStrokeWidth={1}
+  taskBarStrokeColor="#ffd703"
+  taskBarSelectedStrokeColor="#ffd703"
+  taskBarBackgroundColor="#fff6c6"
+  taskBarSelectedBackgroundColor="#fff6c6"
+  taskBarProgressColor="#ffd703"
+  taskBarSelectedProgressColor="#ffd703"
 />
 ```
+
+#### Options
+
+| Option                           | Type   | Description                                     |
+| -------------------------------- | ------ | ----------------------------------------------- |
+| `taskBarHeight`                  | number | Custom height for task bars (centered in row)   |
+| `taskBarStrokeWidth`             | number | Width of task bar stroke border (0 = no stroke) |
+| `taskBarStrokeColor`             | string | Color for task bar stroke border                |
+| `taskBarSelectedStrokeColor`     | string | Color for task bar stroke border when selected  |
+| `taskBarBackgroundColor`         | string | Background color for task bars                  |
+| `taskBarSelectedBackgroundColor` | string | Background color for task bars when selected    |
+| `taskBarProgressColor`           | string | Color for task bar progress fill                |
+| `taskBarSelectedProgressColor`   | string | Color for task bar progress fill when selected  |
+
+All task bar styling options are optional. If not provided, default styling will be used.
 
 ### DisplayOption
 
@@ -229,30 +263,41 @@ All formatters are optional. If not provided, default formatting will be used.
 
 ### StylingOption
 
-| Parameter Name             | Type   | Description                                                                                    |
-| :------------------------- | :----- | :--------------------------------------------------------------------------------------------- |
-| headerHeight               | number | Specifies the header height.                                                                   |
-| ganttHeight                | number | Specifies the gantt chart height without header. Default is 0. It`s mean no height limitation. |
-| columnWidth                | number | Specifies the time period width.                                                               |
-| listCellWidth              | string | Specifies the task list cell width. Empty string is mean "no display".                         |
-| rowHeight                  | number | Specifies the task row height.                                                                 |
-| barCornerRadius            | number | Specifies the taskbar corner rounding.                                                         |
-| barFill                    | number | Specifies the taskbar occupation. Sets in percent from 0 to 100.                               |
-| handleWidth                | number | Specifies width the taskbar drag event control for start and end dates.                        |
-| fontFamily                 | string | Specifies the application font.                                                                |
-| fontSize                   | string | Specifies the application font size.                                                           |
-| barProgressColor           | string | Specifies the taskbar progress fill color globally.                                            |
-| barProgressSelectedColor   | string | Specifies the taskbar progress fill color globally on select.                                  |
-| barBackgroundColor         | string | Specifies the taskbar background fill color globally.                                          |
-| barBackgroundSelectedColor | string | Specifies the taskbar background fill color globally on select.                                |
-| arrowColor                 | string  | Specifies the relationship arrow fill color.                                                   |
-| arrowIndent                | number  | Specifies the relationship arrow right indent. Sets in px                                      |
-| todayColor                 | string  | Specifies the current period column fill color.                                                |
-| showTodayColor             | boolean | Enable/disable today column highlight. Default: `true`                                         |
-| todayHeaderColor           | string  | Background color for today's date in calendar header (Day view). Optional.                     |
-| TooltipContent             |         | Specifies the Tooltip view for selected taskbar.                                               |
-| TaskListHeader             |         | Specifies the task list Header view                                                            |
-| TaskListTable              |         | Specifies the task list Table view                                                             |
+| Parameter Name                 | Type    | Description                                                                                    |
+| :----------------------------- | :------ | :--------------------------------------------------------------------------------------------- |
+| headerHeight                   | number  | Specifies the header height.                                                                   |
+| ganttHeight                    | number  | Specifies the gantt chart height without header. Default is 0. It`s mean no height limitation. |
+| columnWidth                    | number  | Specifies the time period width.                                                               |
+| listCellWidth                  | string  | Specifies the task list cell width. Empty string is mean "no display".                         |
+| rowHeight                      | number  | Specifies the task row height.                                                                 |
+| barCornerRadius                | number  | Specifies the taskbar corner rounding.                                                         |
+| barFill                        | number  | Specifies the taskbar occupation. Sets in percent from 0 to 100.                               |
+| handleWidth                    | number  | Specifies width the taskbar drag event control for start and end dates.                        |
+| fontFamily                     | string  | Specifies the application font.                                                                |
+| fontSize                       | string  | Specifies the application font size.                                                           |
+| barProgressColor               | string  | Specifies the taskbar progress fill color globally.                                            |
+| barProgressSelectedColor       | string  | Specifies the taskbar progress fill color globally on select.                                  |
+| barBackgroundColor             | string  | Specifies the taskbar background fill color globally.                                          |
+| barBackgroundSelectedColor     | string  | Specifies the taskbar background fill color globally on select.                                |
+| arrowColor                     | string  | Specifies the relationship arrow fill color.                                                   |
+| arrowIndent                    | number  | Specifies the relationship arrow right indent. Sets in px                                      |
+| todayColor                     | string  | Specifies the current period column fill color.                                                |
+| showTodayColor                 | boolean | Enable/disable today column highlight. Default: `true`                                         |
+| todayHeaderColor               | string  | Background color for today's date in calendar header (Day view). Optional.                     |
+| headerLineColor                | string  | Color for header border and separator lines. Default: `"#e0e0e0"`                              |
+| taskBarHeight                  | number  | Custom height for task bars (centered in row). Optional.                                       |
+| taskBarStrokeWidth             | number  | Width of task bar stroke border. Optional.                                                     |
+| taskBarStrokeColor             | string  | Color for task bar stroke border. Optional.                                                    |
+| taskBarSelectedStrokeColor     | string  | Color for task bar stroke border when selected. Optional.                                      |
+| taskBarBackgroundColor         | string  | Background color for task bars. Optional.                                                      |
+| taskBarSelectedBackgroundColor | string  | Background color for task bars when selected. Optional.                                        |
+| taskBarProgressColor           | string  | Color for task bar progress fill. Optional.                                                    |
+| taskBarSelectedProgressColor   | string  | Color for task bar progress fill when selected. Optional.                                      |
+| hideTaskName                   | boolean | Hide task names inside bars. Optional.                                                         |
+| hideTaskNameOnShortTasks       | boolean | Hide task names for shorter tasks only. Optional.                                              |
+| TooltipContent                 |         | Specifies the Tooltip view for selected taskbar.                                               |
+| TaskListHeader                 |         | Specifies the task list Header view                                                            |
+| TaskListTable                  |         | Specifies the task list Table view                                                             |
 
 - TooltipContent: [`React.FC<{ task: Task; fontSize: string; fontFamily: string; }>;`](https://github.com/MaTeMaTuK/gantt-task-react/blob/main/src/components/other/tooltip.tsx#L56)
 - TaskListHeader: `React.FC<{ headerHeight: number; rowWidth: string; fontFamily: string; fontSize: string;}>;`

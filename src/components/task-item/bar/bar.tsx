@@ -13,6 +13,14 @@ export const Bar: React.FC<TaskItemProps> = ({
   rtl,
   onEventStart,
   isSelected,
+  taskBarHeight,
+  taskBarStrokeWidth,
+  taskBarStrokeColor,
+  taskBarSelectedStrokeColor,
+  taskBarBackgroundColor,
+  taskBarSelectedBackgroundColor,
+  taskBarProgressColor,
+  taskBarSelectedProgressColor,
 }) => {
   const progressPoint = getProgressPoint(
     +!rtl * task.progressWidth + task.progressX,
@@ -35,6 +43,14 @@ export const Bar: React.FC<TaskItemProps> = ({
         onMouseDown={e => {
           isDateChangeable && onEventStart("move", task, e);
         }}
+        taskBarHeight={taskBarHeight}
+        taskBarStrokeWidth={taskBarStrokeWidth}
+        taskBarStrokeColor={taskBarStrokeColor}
+        taskBarSelectedStrokeColor={taskBarSelectedStrokeColor}
+        taskBarBackgroundColor={taskBarBackgroundColor}
+        taskBarSelectedBackgroundColor={taskBarSelectedBackgroundColor}
+        taskBarProgressColor={taskBarProgressColor}
+        taskBarSelectedProgressColor={taskBarSelectedProgressColor}
       />
       <g className="handleGroup">
         {isDateChangeable && (

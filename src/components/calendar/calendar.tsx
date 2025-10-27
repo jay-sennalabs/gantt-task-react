@@ -22,6 +22,7 @@ export type CalendarProps = {
   fontSize: string;
   dateFormatter?: DateFormatter;
   todayHeaderColor?: string;
+  headerLineColor?: string;
 };
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -35,10 +36,11 @@ export const Calendar: React.FC<CalendarProps> = ({
   fontSize,
   dateFormatter,
   todayHeaderColor,
+  headerLineColor = "#e0e0e0",
 }) => {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  
+
   const isSameDay = (date: Date) => {
     return (
       date.getDate() === today.getDate() &&
@@ -49,7 +51,6 @@ export const Calendar: React.FC<CalendarProps> = ({
   const getCalendarValuesForYear = () => {
     const topValues: ReactChild[] = [];
     const bottomValues: ReactChild[] = [];
-    const topDefaultHeight = headerHeight * 0.5;
     for (let i = 0; i < dateSetup.dates.length; i++) {
       const date = dateSetup.dates[i];
       const bottomValue = dateFormatter?.formatYear
@@ -58,7 +59,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       bottomValues.push(
         <text
           key={date.getTime()}
-          y={headerHeight * 0.8}
+          y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
         >
@@ -86,7 +87,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             y1Line={0}
             y2Line={headerHeight}
             xText={xText}
-            yText={topDefaultHeight * 0.9}
+            yText={headerHeight * 0.25}
+            lineColor={headerLineColor}
           />
         );
       }
@@ -105,7 +107,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       bottomValues.push(
         <text
           key={date.getTime()}
-          y={headerHeight * 0.8}
+          y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
         >
@@ -131,7 +133,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             y1Line={0}
             y2Line={topDefaultHeight}
             xText={Math.abs(xText)}
-            yText={topDefaultHeight * 0.9}
+            yText={headerHeight * 0.25}
+            lineColor={headerLineColor}
           />
         );
       }
@@ -151,7 +154,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       bottomValues.push(
         <text
           key={bottomValue + date.getFullYear()}
-          y={headerHeight * 0.8}
+          y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
         >
@@ -179,7 +182,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             y1Line={0}
             y2Line={topDefaultHeight}
             xText={xText}
-            yText={topDefaultHeight * 0.9}
+            yText={headerHeight * 0.25}
+            lineColor={headerLineColor}
           />
         );
       }
@@ -214,7 +218,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       bottomValues.push(
         <text
           key={date.getTime()}
-          y={headerHeight * 0.8}
+          y={headerHeight * 0.75}
           x={columnWidth * (i + +rtl)}
           className={styles.calendarBottomText}
         >
@@ -233,7 +237,8 @@ export const Calendar: React.FC<CalendarProps> = ({
               y1Line={0}
               y2Line={topDefaultHeight}
               xText={columnWidth * i + columnWidth * weeksCount * 0.5}
-              yText={topDefaultHeight * 0.9}
+              yText={headerHeight * 0.25}
+              lineColor={headerLineColor}
             />
           );
         }
@@ -257,7 +262,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         : `${getLocalDayOfWeek(date, locale, "short")}, ${date
             .getDate()
             .toString()}`;
-      
+
       // Add today highlight
       if (todayHeaderColor && isSameDay(date)) {
         todayHighlights.push(
@@ -276,10 +281,12 @@ export const Calendar: React.FC<CalendarProps> = ({
       bottomValues.push(
         <text
           key={date.getTime()}
-          y={headerHeight * 0.8}
+          y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
-          style={isSameDay(date) && todayHeaderColor ? { fontWeight: "bold" } : {}}
+          style={
+            isSameDay(date) && todayHeaderColor ? { fontWeight: "bold" } : {}
+          }
         >
           {bottomValue}
         </text>
@@ -305,7 +312,8 @@ export const Calendar: React.FC<CalendarProps> = ({
                 columnWidth *
                 0.5
             }
-            yText={topDefaultHeight * 0.9}
+            yText={headerHeight * 0.25}
+            lineColor={headerLineColor}
           />
         );
       }
@@ -330,7 +338,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       bottomValues.push(
         <text
           key={date.getTime()}
-          y={headerHeight * 0.8}
+          y={headerHeight * 0.75}
           x={columnWidth * (i + +rtl)}
           className={styles.calendarBottomText}
           fontFamily={fontFamily}
@@ -354,7 +362,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             y1Line={0}
             y2Line={topDefaultHeight}
             xText={columnWidth * i + ticks * columnWidth * 0.5}
-            yText={topDefaultHeight * 0.9}
+            yText={headerHeight * 0.25}
+            lineColor={headerLineColor}
           />
         );
       }
@@ -379,7 +388,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       bottomValues.push(
         <text
           key={date.getTime()}
-          y={headerHeight * 0.8}
+          y={headerHeight * 0.75}
           x={columnWidth * (i + +rtl)}
           className={styles.calendarBottomText}
           fontFamily={fontFamily}
@@ -408,7 +417,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             y1Line={0}
             y2Line={topDefaultHeight}
             xText={columnWidth * (i + topPosition)}
-            yText={topDefaultHeight * 0.9}
+            yText={headerHeight * 0.25}
+            lineColor={headerLineColor}
           />
         );
       }
@@ -451,6 +461,16 @@ export const Calendar: React.FC<CalendarProps> = ({
         width={columnWidth * dateSetup.dates.length}
         height={headerHeight}
         className={styles.calendarHeader}
+        stroke={headerLineColor}
+      />
+      {/* Horizontal line between top and bottom header */}
+      <line
+        x1={0}
+        y1={headerHeight / 2}
+        x2={columnWidth * dateSetup.dates.length}
+        y2={headerHeight / 2}
+        className={styles.calendarHeaderSeparator}
+        stroke={headerLineColor}
       />
       {todayHighlights}
       {bottomValues} {topValues}

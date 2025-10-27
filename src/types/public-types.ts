@@ -156,6 +156,19 @@ export interface StylingOption {
   arrowIndent?: number;
   todayColor?: string;
   /**
+   * Task bar styling options
+   */
+  taskBarHeight?: number;
+  taskBarStrokeWidth?: number;
+  taskBarStrokeColor?: string;
+  taskBarSelectedStrokeColor?: string;
+  taskBarBackgroundColor?: string;
+  taskBarSelectedBackgroundColor?: string;
+  taskBarProgressColor?: string;
+  taskBarSelectedProgressColor?: string;
+  hideTaskName?: boolean;
+  hideTaskNameOnShortTasks?: boolean;
+  /**
    * Show today column highlight
    */
   showTodayColor?: boolean;
@@ -163,6 +176,10 @@ export interface StylingOption {
    * Color for today header highlight
    */
   todayHeaderColor?: string;
+  /**
+   * Color for header border and separator lines
+   */
+  headerLineColor?: string;
   TooltipContent?: React.FC<{
     task: Task;
     fontSize: string;

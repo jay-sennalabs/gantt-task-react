@@ -8,8 +8,13 @@
 
 .gridRowLine {
   stroke: #ebeff2;
+  stroke-dasharray: 4, 4;
+  stroke-dashoffset: 0;
+  stroke-width: 0;
 }
 
 .gridTick {
   stroke: #e6e4e4;
+  stroke-dasharray: 2, 4;
+  stroke-dashoffset: 0;
 }

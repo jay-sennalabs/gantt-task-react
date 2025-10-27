@@ -112,7 +112,14 @@ const App = () => {
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
-      <div style={{ marginBottom: "10px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
+      <div
+        style={{
+          marginBottom: "10px",
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+        }}
+      >
         <button onClick={() => setUseThaiFormat(!useThaiFormat)}>
           {useThaiFormat
             ? "Switch to English Format"
@@ -122,7 +129,7 @@ const App = () => {
           <input
             type="checkbox"
             checked={showTodayColor}
-            onChange={(e) => setShowTodayColor(e.target.checked)}
+            onChange={e => setShowTodayColor(e.target.checked)}
           />
           Show Today Column Highlight
         </label>
@@ -130,7 +137,7 @@ const App = () => {
           <input
             type="checkbox"
             checked={showTodayHeader}
-            onChange={(e) => setShowTodayHeader(e.target.checked)}
+            onChange={e => setShowTodayHeader(e.target.checked)}
           />
           Highlight Today in Header
         </label>
@@ -139,6 +146,7 @@ const App = () => {
       <Gantt
         tasks={tasks}
         viewMode={view}
+        headerHeight={78}
         onDateChange={handleTaskChange}
         onDelete={handleTaskDelete}
         onProgressChange={handleProgressChange}
