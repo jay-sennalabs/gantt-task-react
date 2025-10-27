@@ -6,9 +6,15 @@
 
 ## [Live Demo](https://matematuk.github.io/gantt-task-react/)
 
+> **Note**: This is a fork with added support for **Custom Date Formatters**. See [Custom Date Formatter](#custom-date-formatter) section below.
+
 ## Install
 
-```
+```bash
+# From GitHub (this fork)
+npm install git+https://github.com/jay-sennalabs/gantt-task-react.git
+
+# From npm (original)
 npm install gantt-task-react
 ```
 
@@ -82,15 +88,96 @@ npm start
 
 \* Chart undoes operation if method return false or error. Parameter children returns one level deep records.
 
+### Custom Date Formatter
+
+**New Feature!** You can now customize how dates, months, years, weeks, and hours are displayed using the `dateFormatter` prop.
+
+#### Basic Usage
+
+```typescript
+import { Gantt, DateFormatter } from "gantt-task-react";
+
+const customFormatter: DateFormatter = {
+  formatDay: (date, locale) => `Day ${date.getDate()}`,
+  formatMonth: (date, locale) => {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return months[date.getMonth()];
+  },
+  formatYear: (date, locale) => date.getFullYear().toString(),
+  // Optional: formatWeek, formatHour
+};
+
+<Gantt tasks={tasks} dateFormatter={customFormatter} />;
+```
+
+#### Thai Date Format Example
+
+```typescript
+const thaiFormatter: DateFormatter = {
+  formatDay: date => {
+    const thaiDays = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
+    return `${thaiDays[date.getDay()]} ${date.getDate()}`;
+  },
+  formatMonth: date => {
+    const thaiMonths = [
+      "ม.ค.",
+      "ก.พ.",
+      "มี.ค.",
+      "เม.ย.",
+      "พ.ค.",
+      "มิ.ย.",
+      "ก.ค.",
+      "ส.ค.",
+      "ก.ย.",
+      "ต.ค.",
+      "พ.ย.",
+      "ธ.ค.",
+    ];
+    return thaiMonths[date.getMonth()];
+  },
+  formatYear: date => `${date.getFullYear() + 543}`, // Buddhist Era
+};
+
+<Gantt tasks={tasks} dateFormatter={thaiFormatter} />;
+```
+
+See [full example](./example/src/App.tsx) for more details.
+
+#### DateFormatter Interface
+
+| Property    | Type                                     | Description         | Used in ViewMode               |
+| ----------- | ---------------------------------------- | ------------------- | ------------------------------ |
+| formatDay   | `(date: Date, locale: string) => string` | Custom day format   | Day, HalfDay, QuarterDay, Hour |
+| formatMonth | `(date: Date, locale: string) => string` | Custom month format | Month, Week, Day               |
+| formatYear  | `(date: Date, locale: string) => string` | Custom year format  | Year, QuarterYear, Month, Week |
+| formatWeek  | `(date: Date, locale: string) => string` | Custom week format  | Week                           |
+| formatHour  | `(date: Date, locale: string) => string` | Custom hour format  | Hour, HalfDay, QuarterDay      |
+
+All formatters are optional. If not provided, default formatting will be used.
+
 ### DisplayOption
 
-| Parameter Name | Type    | Description                                                                                                 |
-| :------------- | :------ | :---------------------------------------------------------------------------------------------------------- |
-| viewMode       | enum    | Specifies the time scale. Hour, Quarter Day, Half Day, Day, Week(ISO-8601, 1st day is Monday), Month, QuarterYear, Year. |
-| viewDate       | date    | Specifies display date and time for display.                                                                |
-| preStepsCount  | number  | Specifies empty space before the fist task                                                                  |
-| locale         | string  | Specifies the month name language. Able formats: ISO 639-2, Java Locale.                                    |
-| rtl            | boolean | Sets rtl mode.                                                                                              |
+| Parameter Name | Type                                    | Description                                                                                                              |
+| :------------- | :-------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
+| viewMode       | enum                                    | Specifies the time scale. Hour, Quarter Day, Half Day, Day, Week(ISO-8601, 1st day is Monday), Month, QuarterYear, Year. |
+| viewDate       | date                                    | Specifies display date and time for display.                                                                             |
+| preStepsCount  | number                                  | Specifies empty space before the fist task                                                                               |
+| locale         | string                                  | Specifies the month name language. Able formats: ISO 639-2, Java Locale.                                                 |
+| rtl            | boolean                                 | Sets rtl mode.                                                                                                           |
+| dateFormatter  | [DateFormatter](#custom-date-formatter) | Custom date formatters for calendar display. See [Custom Date Formatter](#custom-date-formatter) section.                |
 
 ### StylingOption
 
