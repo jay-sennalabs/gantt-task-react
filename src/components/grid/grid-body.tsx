@@ -12,6 +12,7 @@ export type GridBodyProps = {
   todayColor: string;
   showTodayColor: boolean;
   rtl: boolean;
+  gridRowBackgroundColor?: string;
 };
 export const GridBody: React.FC<GridBodyProps> = ({
   tasks,
@@ -22,6 +23,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   todayColor,
   showTodayColor,
   rtl,
+  gridRowBackgroundColor = "#fff",
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
@@ -43,7 +45,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         y={y}
         width={svgWidth}
         height={rowHeight}
-        className={styles.gridRow}
+        fill={gridRowBackgroundColor}
       />
     );
     rowLines.push(

@@ -57,6 +57,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   showTodayColor = true,
   todayHeaderColor,
   headerLineColor,
+  headerTextColor,
+  gridRowBackgroundColor,
+  taskListRowBackgroundColor,
   viewDate,
   dateFormatter,
   taskBarHeight,
@@ -410,6 +413,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     todayColor,
     showTodayColor,
     rtl,
+    gridRowBackgroundColor,
   };
   const calendarProps: CalendarProps = {
     dateSetup,
@@ -423,6 +427,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     dateFormatter,
     todayHeaderColor,
     headerLineColor,
+    headerTextColor,
   };
   const barProps: TaskGanttContentProps = {
     tasks: barTasks,
@@ -474,6 +479,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     taskListRef,
     setSelectedTask: handleSelectedTask,
     onExpanderClick: handleExpanderClick,
+    headerTextColor,
+    taskListRowBackgroundColor,
     TaskListHeader,
     TaskListTable,
   };

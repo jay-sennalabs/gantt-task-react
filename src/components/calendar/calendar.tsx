@@ -23,6 +23,7 @@ export type CalendarProps = {
   dateFormatter?: DateFormatter;
   todayHeaderColor?: string;
   headerLineColor?: string;
+  headerTextColor?: string;
 };
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -37,6 +38,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   dateFormatter,
   todayHeaderColor,
   headerLineColor = "#e0e0e0",
+  headerTextColor = "#333",
 }) => {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -62,6 +64,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
+          style={{ fill: headerTextColor }}
         >
           {bottomValue}
         </text>
@@ -89,6 +92,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             xText={xText}
             yText={headerHeight * 0.25}
             lineColor={headerLineColor}
+            textColor={headerTextColor}
           />
         );
       }
@@ -110,6 +114,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
+          style={{ fill: headerTextColor }}
         >
           {quarter}
         </text>
@@ -135,6 +140,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             xText={Math.abs(xText)}
             yText={headerHeight * 0.25}
             lineColor={headerLineColor}
+            textColor={headerTextColor}
           />
         );
       }
@@ -157,6 +163,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
+          style={{ fill: headerTextColor }}
         >
           {bottomValue}
         </text>
@@ -184,6 +191,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             xText={xText}
             yText={headerHeight * 0.25}
             lineColor={headerLineColor}
+            textColor={headerTextColor}
           />
         );
       }
@@ -221,6 +229,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           y={headerHeight * 0.75}
           x={columnWidth * (i + +rtl)}
           className={styles.calendarBottomText}
+          style={{ fill: headerTextColor }}
         >
           {bottomValue}
         </text>
@@ -239,6 +248,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               xText={columnWidth * i + columnWidth * weeksCount * 0.5}
               yText={headerHeight * 0.25}
               lineColor={headerLineColor}
+              textColor={headerTextColor}
             />
           );
         }
@@ -284,9 +294,12 @@ export const Calendar: React.FC<CalendarProps> = ({
           y={headerHeight * 0.75}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
-          style={
-            isSameDay(date) && todayHeaderColor ? { fontWeight: "bold" } : {}
-          }
+          style={{
+            fill: headerTextColor,
+            ...(isSameDay(date) && todayHeaderColor
+              ? { fontWeight: "bold" }
+              : {}),
+          }}
         >
           {bottomValue}
         </text>
@@ -314,6 +327,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             }
             yText={headerHeight * 0.25}
             lineColor={headerLineColor}
+            textColor={headerTextColor}
           />
         );
       }
@@ -342,6 +356,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           x={columnWidth * (i + +rtl)}
           className={styles.calendarBottomText}
           fontFamily={fontFamily}
+          style={{ fill: headerTextColor }}
         >
           {bottomValue}
         </text>
@@ -364,6 +379,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             xText={columnWidth * i + ticks * columnWidth * 0.5}
             yText={headerHeight * 0.25}
             lineColor={headerLineColor}
+            textColor={headerTextColor}
           />
         );
       }
@@ -392,6 +408,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           x={columnWidth * (i + +rtl)}
           className={styles.calendarBottomText}
           fontFamily={fontFamily}
+          style={{ fill: headerTextColor }}
         >
           {bottomValue}
         </text>
@@ -419,6 +436,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             xText={columnWidth * (i + topPosition)}
             yText={headerHeight * 0.25}
             lineColor={headerLineColor}
+            textColor={headerTextColor}
           />
         );
       }

@@ -280,6 +280,28 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
     }
   };
 
+  useEffect(() => {
+    const svgElement = svg?.current;
+    if (!svgElement) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Element | null;
+      if (target?.closest("[data-task-id]")) {
+        return;
+      }
+      if (selectedTask) {
+        setSelectedTask("");
+      }
+    };
+
+    svgElement.addEventListener("pointerdown", handlePointerDown);
+    return () => {
+      svgElement.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [svg, selectedTask, setSelectedTask]);
+
   return (
     <g className="content">
       <g className="arrows" fill={arrowColor} stroke={arrowColor}>

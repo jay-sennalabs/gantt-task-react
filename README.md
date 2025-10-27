@@ -6,16 +6,20 @@
 
 ## [Live Demo](https://matematuk.github.io/gantt-task-react/)
 
-> **Note**: This is a fork with added support for **Custom Date Formatters**. See [Custom Date Formatter](#custom-date-formatter) section below.
+> **Note**: This is a fork with added support for:
+>
+> - **Custom Date Formatters** - See [Custom Date Formatter](#custom-date-formatter) section
+> - **Custom Header Text Color** - See [Header Text Color Customization](#header-text-color-customization) section
+> - **Today Highlighting Features** - See [Today Highlighting Features](#today-highlighting-features) section
+> - **Custom Task Bar Styling** - See [Custom Task Bar Styling](#custom-task-bar-styling) section
+> - **Row Background Color Customization** - See [Row Background Color Customization](#row-background-color-customization) section
 
 ## Install
 
 ```bash
 # From GitHub (this fork)
-npm install git+https://github.com/jay-sennalabs/gantt-task-react.git
+npm install jay-sennalabs/gantt-task-react
 
-# From npm (original)
-npm install gantt-task-react
 ```
 
 ## How to use it
@@ -250,6 +254,67 @@ All formatters are optional. If not provided, default formatting will be used.
 
 All task bar styling options are optional. If not provided, default styling will be used.
 
+### Header Text Color Customization
+
+**New Feature!** Customize the text color for calendar and task list headers.
+
+#### Basic Usage
+
+```typescript
+<Gantt
+  tasks={tasks}
+  headerTextColor="#666" // Custom header text color
+/>
+```
+
+#### Examples
+
+**Light theme header text:**
+
+```typescript
+<Gantt tasks={tasks} headerTextColor="#999" />
+```
+
+**Dark theme header text:**
+
+```typescript
+<Gantt tasks={tasks} headerTextColor="#fff" />
+```
+
+### Row Background Color Customization
+
+**New Feature!** Customize the background color for grid and task list rows.
+
+#### Basic Usage
+
+```typescript
+<Gantt
+  tasks={tasks}
+  gridRowBackgroundColor="#f9f9f9" // Custom grid row background
+  taskListRowBackgroundColor="#f5f5f5" // Custom task list row background
+/>
+```
+
+#### Examples
+
+**Custom row colors:**
+
+```typescript
+// Light background for better visibility
+<Gantt
+  tasks={tasks}
+  gridRowBackgroundColor="#fafafa"
+  taskListRowBackgroundColor="#f8f8f8"
+/>
+
+// Dark theme
+<Gantt
+  tasks={tasks}
+  gridRowBackgroundColor="#1e1e1e"
+  taskListRowBackgroundColor="#2a2a2a"
+/>
+```
+
 ### DisplayOption
 
 | Parameter Name | Type                                    | Description                                                                                                              |
@@ -285,6 +350,9 @@ All task bar styling options are optional. If not provided, default styling will
 | showTodayColor                 | boolean | Enable/disable today column highlight. Default: `true`                                         |
 | todayHeaderColor               | string  | Background color for today's date in calendar header (Day view). Optional.                     |
 | headerLineColor                | string  | Color for header border and separator lines. Default: `"#e0e0e0"`                              |
+| headerTextColor                | string  | Text color for calendar and task list headers. Default: `"#333"`                               |
+| gridRowBackgroundColor         | string  | Background color for grid rows (timeline area). Default: `"#fff"`                              |
+| taskListRowBackgroundColor     | string  | Background color for task list rows. Default: `"#fff"`                                         |
 | taskBarHeight                  | number  | Custom height for task bars (centered in row). Optional.                                       |
 | taskBarStrokeWidth             | number  | Width of task bar stroke border. Optional.                                                     |
 | taskBarStrokeColor             | string  | Color for task bar stroke border. Optional.                                                    |

@@ -180,6 +180,18 @@ export interface StylingOption {
    * Color for header border and separator lines
    */
   headerLineColor?: string;
+  /**
+   * Text color for calendar header
+   */
+  headerTextColor?: string;
+  /**
+   * Background color for grid rows (timeline area)
+   */
+  gridRowBackgroundColor?: string;
+  /**
+   * Background color for task list rows
+   */
+  taskListRowBackgroundColor?: string;
   TooltipContent?: React.FC<{
     task: Task;
     fontSize: string;
@@ -190,6 +202,7 @@ export interface StylingOption {
     rowWidth: string;
     fontFamily: string;
     fontSize: string;
+    headerTextColor?: string;
   }>;
   TaskListTable?: React.FC<{
     rowHeight: number;
@@ -204,6 +217,8 @@ export interface StylingOption {
      */
     setSelectedTask: (taskId: string) => void;
     onExpanderClick: (task: Task) => void;
+    headerTextColor?: string;
+    taskListRowBackgroundColor?: string;
   }>;
 }
 
