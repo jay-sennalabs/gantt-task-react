@@ -155,6 +155,14 @@ export interface StylingOption {
   arrowColor?: string;
   arrowIndent?: number;
   todayColor?: string;
+  /**
+   * Show today column highlight
+   */
+  showTodayColor?: boolean;
+  /**
+   * Color for today header highlight
+   */
+  todayHeaderColor?: string;
   TooltipContent?: React.FC<{
     task: Task;
     fontSize: string;

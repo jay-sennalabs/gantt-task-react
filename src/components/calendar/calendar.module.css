@@ -29,3 +29,8 @@
   stroke: #e0e0e0;
   stroke-width: 1.4;
 }
+
+.calendarTodayHeader {
+  opacity: 0.4;
+  pointer-events: none;
+}

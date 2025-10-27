@@ -21,6 +21,7 @@ export type CalendarProps = {
   fontFamily: string;
   fontSize: string;
   dateFormatter?: DateFormatter;
+  todayHeaderColor?: string;
 };
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -33,7 +34,18 @@ export const Calendar: React.FC<CalendarProps> = ({
   fontFamily,
   fontSize,
   dateFormatter,
+  todayHeaderColor,
 }) => {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  
+  const isSameDay = (date: Date) => {
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
   const getCalendarValuesForYear = () => {
     const topValues: ReactChild[] = [];
     const bottomValues: ReactChild[] = [];
@@ -235,6 +247,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   const getCalendarValuesForDay = () => {
     const topValues: ReactChild[] = [];
     const bottomValues: ReactChild[] = [];
+    const todayHighlights: ReactChild[] = [];
     const topDefaultHeight = headerHeight * 0.5;
     const dates = dateSetup.dates;
     for (let i = 0; i < dates.length; i++) {
@@ -244,6 +257,21 @@ export const Calendar: React.FC<CalendarProps> = ({
         : `${getLocalDayOfWeek(date, locale, "short")}, ${date
             .getDate()
             .toString()}`;
+      
+      // Add today highlight
+      if (todayHeaderColor && isSameDay(date)) {
+        todayHighlights.push(
+          <rect
+            key={`today-${date.getTime()}`}
+            x={columnWidth * i}
+            y={topDefaultHeight}
+            width={columnWidth}
+            height={headerHeight - topDefaultHeight}
+            fill={todayHeaderColor}
+            className={styles.calendarTodayHeader}
+          />
+        );
+      }
 
       bottomValues.push(
         <text
@@ -251,6 +279,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           y={headerHeight * 0.8}
           x={columnWidth * i + columnWidth * 0.5}
           className={styles.calendarBottomText}
+          style={isSameDay(date) && todayHeaderColor ? { fontWeight: "bold" } : {}}
         >
           {bottomValue}
         </text>
@@ -281,7 +310,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         );
       }
     }
-    return [topValues, bottomValues];
+    return [topValues, bottomValues, todayHighlights];
   };
 
   const getCalendarValuesForPartOfDay = () => {
@@ -390,6 +419,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   let topValues: ReactChild[] = [];
   let bottomValues: ReactChild[] = [];
+  let todayHighlights: ReactChild[] = [];
   switch (dateSetup.viewMode) {
     case ViewMode.Year:
       [topValues, bottomValues] = getCalendarValuesForYear();
@@ -404,7 +434,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       [topValues, bottomValues] = getCalendarValuesForWeek();
       break;
     case ViewMode.Day:
-      [topValues, bottomValues] = getCalendarValuesForDay();
+      [topValues, bottomValues, todayHighlights] = getCalendarValuesForDay();
       break;
     case ViewMode.QuarterDay:
     case ViewMode.HalfDay:
@@ -422,6 +452,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         height={headerHeight}
         className={styles.calendarHeader}
       />
+      {todayHighlights}
       {bottomValues} {topValues}
     </g>
   );

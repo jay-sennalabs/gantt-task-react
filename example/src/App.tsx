@@ -45,6 +45,8 @@ const App = () => {
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
   const [useThaiFormat, setUseThaiFormat] = React.useState(false);
+  const [showTodayColor, setShowTodayColor] = React.useState(true);
+  const [showTodayHeader, setShowTodayHeader] = React.useState(true);
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -110,12 +112,28 @@ const App = () => {
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
-      <div style={{ marginBottom: "10px" }}>
+      <div style={{ marginBottom: "10px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
         <button onClick={() => setUseThaiFormat(!useThaiFormat)}>
           {useThaiFormat
             ? "Switch to English Format"
             : "Switch to Thai Format (ภาษาไทย)"}
         </button>
+        <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <input
+            type="checkbox"
+            checked={showTodayColor}
+            onChange={(e) => setShowTodayColor(e.target.checked)}
+          />
+          Show Today Column Highlight
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <input
+            type="checkbox"
+            checked={showTodayHeader}
+            onChange={(e) => setShowTodayHeader(e.target.checked)}
+          />
+          Highlight Today in Header
+        </label>
       </div>
       <h3>Gantt With Unlimited Height {useThaiFormat && "(Thai Format)"}</h3>
       <Gantt
@@ -131,6 +149,8 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
         dateFormatter={useThaiFormat ? thaiDateFormatter : undefined}
+        showTodayColor={showTodayColor}
+        todayHeaderColor={showTodayHeader ? "#ffeb3b" : undefined}
       />
       <h3>Gantt With Limited Height {useThaiFormat && "(Thai Format)"}</h3>
       <Gantt
@@ -147,6 +167,8 @@ const App = () => {
         ganttHeight={300}
         columnWidth={columnWidth}
         dateFormatter={useThaiFormat ? thaiDateFormatter : undefined}
+        showTodayColor={showTodayColor}
+        todayHeaderColor={showTodayHeader ? "#ffeb3b" : undefined}
       />
     </div>
   );
