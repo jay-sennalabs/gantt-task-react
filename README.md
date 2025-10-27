@@ -168,6 +168,54 @@ See [full example](./example/src/App.tsx) for more details.
 
 All formatters are optional. If not provided, default formatting will be used.
 
+### Today Highlighting Features
+
+**New Feature!** Control how today's date is highlighted in the Gantt chart.
+
+#### Basic Usage
+
+```typescript
+<Gantt
+  tasks={tasks}
+  showTodayColor={true}                    // Show/hide column highlight (default: true)
+  todayColor="rgba(252, 248, 227, 0.5)"   // Column highlight color
+  todayHeaderColor="#ffeb3b"               // Header highlight color (optional)
+/>
+```
+
+#### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `showTodayColor` | boolean | `true` | Enable/disable today column highlight |
+| `todayColor` | string | `"rgba(252, 248, 227, 0.5)"` | Background color for today's column |
+| `todayHeaderColor` | string | `undefined` | Background color for today's date in header (Day view) |
+
+#### Examples
+
+**Disable today column highlight:**
+```typescript
+<Gantt tasks={tasks} showTodayColor={false} />
+```
+
+**Custom colors:**
+```typescript
+<Gantt
+  tasks={tasks}
+  todayColor="rgba(255, 235, 59, 0.2)"
+  todayHeaderColor="#ffeb3b"
+/>
+```
+
+**Header-only highlight:**
+```typescript
+<Gantt
+  tasks={tasks}
+  showTodayColor={false}
+  todayHeaderColor="#4CAF50"
+/>
+```
+
 ### DisplayOption
 
 | Parameter Name | Type                                    | Description                                                                                                              |
@@ -197,12 +245,14 @@ All formatters are optional. If not provided, default formatting will be used.
 | barProgressSelectedColor   | string | Specifies the taskbar progress fill color globally on select.                                  |
 | barBackgroundColor         | string | Specifies the taskbar background fill color globally.                                          |
 | barBackgroundSelectedColor | string | Specifies the taskbar background fill color globally on select.                                |
-| arrowColor                 | string | Specifies the relationship arrow fill color.                                                   |
-| arrowIndent                | number | Specifies the relationship arrow right indent. Sets in px                                      |
-| todayColor                 | string | Specifies the current period column fill color.                                                |
-| TooltipContent             |        | Specifies the Tooltip view for selected taskbar.                                               |
-| TaskListHeader             |        | Specifies the task list Header view                                                            |
-| TaskListTable              |        | Specifies the task list Table view                                                             |
+| arrowColor                 | string  | Specifies the relationship arrow fill color.                                                   |
+| arrowIndent                | number  | Specifies the relationship arrow right indent. Sets in px                                      |
+| todayColor                 | string  | Specifies the current period column fill color.                                                |
+| showTodayColor             | boolean | Enable/disable today column highlight. Default: `true`                                         |
+| todayHeaderColor           | string  | Background color for today's date in calendar header (Day view). Optional.                     |
+| TooltipContent             |         | Specifies the Tooltip view for selected taskbar.                                               |
+| TaskListHeader             |         | Specifies the task list Header view                                                            |
+| TaskListTable              |         | Specifies the task list Table view                                                             |
 
 - TooltipContent: [`React.FC<{ task: Task; fontSize: string; fontFamily: string; }>;`](https://github.com/MaTeMaTuK/gantt-task-react/blob/main/src/components/other/tooltip.tsx#L56)
 - TaskListHeader: `React.FC<{ headerHeight: number; rowWidth: string; fontFamily: string; fontSize: string;}>;`
