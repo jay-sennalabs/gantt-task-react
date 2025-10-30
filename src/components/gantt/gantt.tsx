@@ -113,7 +113,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const [scrollY, setScrollY] = useState(0);
   const [scrollX, setScrollX] = useState(-1);
-  const [ignoreScrollEvent, setIgnoreScrollEvent] = useState(false);
+  const ignoreScrollEventRef = useRef<boolean>(false);
 
   // task change events
   useEffect(() => {
@@ -297,7 +297,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         }
       }
 
-      setIgnoreScrollEvent(true);
+      ignoreScrollEventRef.current = true;
     };
 
     // subscribe if scroll is necessary
@@ -318,20 +318,26 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   ]);
 
   const handleScrollY = (event: SyntheticEvent<HTMLDivElement>) => {
-    if (scrollY !== event.currentTarget.scrollTop && !ignoreScrollEvent) {
+    if (
+      scrollY !== event.currentTarget.scrollTop &&
+      !ignoreScrollEventRef.current
+    ) {
       setScrollY(event.currentTarget.scrollTop);
-      setIgnoreScrollEvent(true);
+      ignoreScrollEventRef.current = true;
     } else {
-      setIgnoreScrollEvent(false);
+      ignoreScrollEventRef.current = false;
     }
   };
 
   const handleScrollX = (event: SyntheticEvent<HTMLDivElement>) => {
-    if (scrollX !== event.currentTarget.scrollLeft && !ignoreScrollEvent) {
+    if (
+      scrollX !== event.currentTarget.scrollLeft &&
+      !ignoreScrollEventRef.current
+    ) {
       setScrollX(event.currentTarget.scrollLeft);
-      setIgnoreScrollEvent(true);
+      ignoreScrollEventRef.current = true;
     } else {
-      setIgnoreScrollEvent(false);
+      ignoreScrollEventRef.current = false;
     }
   };
 
@@ -378,7 +384,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       }
       setScrollY(newScrollY);
     }
-    setIgnoreScrollEvent(true);
+    ignoreScrollEventRef.current = true;
   };
 
   /**
