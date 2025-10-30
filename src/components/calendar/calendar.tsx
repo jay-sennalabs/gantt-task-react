@@ -9,6 +9,10 @@ import {
 } from "../../helpers/date-helper";
 import { DateSetup } from "../../types/date-setup";
 import styles from "./calendar.module.css";
+import {
+  addEllipsisIfNeeded,
+  parseFontSizeToPx,
+} from "../../helpers/text-helper";
 
 export type CalendarProps = {
   dateSetup: DateSetup;
@@ -41,6 +45,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const fontSizePx = parseFontSizeToPx(fontSize);
 
   const isSameDay = (date: Date) => {
     return (
@@ -334,19 +339,49 @@ export const Calendar: React.FC<CalendarProps> = ({
         ? dateFormatter.formatMonth(segmentDate, locale)
         : getLocaleMonth(segmentDate, locale);
       const segmentLength = segment.endIdx - segment.startIdx + 1;
-      const segmentCenter =
-        columnWidth * (segment.startIdx + segmentLength / 2);
+      const segmentStartX = columnWidth * segment.startIdx;
+      const segmentEndX = columnWidth * (segment.endIdx + 1);
+      const segmentWidth = segmentLength * columnWidth;
+      const minCenteredWidth = columnWidth * 2;
+      const narrowPadding = columnWidth * 0.3;
+      const isNarrow = segmentWidth < minCenteredWidth;
+      let xText = segmentStartX + segmentWidth / 2;
+      let textAnchor: "start" | "middle" | "end" = "middle";
+      let startMargin = Math.min(columnWidth * 0.1, segmentWidth / 2);
+      let endMargin = Math.min(columnWidth * 0.1, segmentWidth / 2);
+      if (isNarrow) {
+        if (rtl) {
+          textAnchor = "end";
+          endMargin = Math.min(narrowPadding, segmentWidth / 2);
+          xText = segmentEndX - endMargin;
+        } else {
+          textAnchor = "start";
+          startMargin = Math.min(narrowPadding, segmentWidth / 2);
+          xText = segmentStartX + startMargin;
+        }
+      }
+      const availableTextWidth = Math.max(
+        0,
+        segmentWidth - startMargin - endMargin
+      );
+      const displayValue = addEllipsisIfNeeded(
+        topValue,
+        availableTextWidth,
+        fontSizePx
+      );
       topValues.push(
         <TopPartOfCalendar
           key={`${topValue}${segmentDate.getFullYear()}${segment.startIdx}`}
-          value={topValue}
-          x1Line={columnWidth * (segment.endIdx + 1)}
+          value={displayValue}
+          fullValue={topValue}
+          x1Line={segmentEndX}
           y1Line={0}
           y2Line={topDefaultHeight}
-          xText={segmentCenter}
+          xText={xText}
           yText={headerHeight * 0.25}
           lineColor={headerLineColor}
           textColor={headerTextColor}
+          textAnchor={textAnchor}
         />
       );
     });

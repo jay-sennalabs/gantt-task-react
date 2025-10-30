@@ -15,7 +15,6 @@
 }
 
 .calendarTopText {
-  text-anchor: middle;
   dominant-baseline: middle;
   fill: #555;
   font-weight: bold;
