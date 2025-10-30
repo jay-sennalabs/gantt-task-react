@@ -4,8 +4,8 @@ export function initTasks() {
   const currentDate = new Date();
   const tasks: Task[] = [
     {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
+      start: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1),
+      end: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 7),
       name: "Some Project",
       id: "ProjectSample",
       progress: 25,

@@ -3,7 +3,6 @@ import { ViewMode, DateFormatter } from "../../types/public-types";
 import { TopPartOfCalendar } from "./top-part-of-calendar";
 import {
   getCachedDateTimeFormat,
-  getDaysInMonth,
   getLocalDayOfWeek,
   getLocaleMonth,
   getWeekNumberISO8601,
@@ -265,6 +264,12 @@ export const Calendar: React.FC<CalendarProps> = ({
     const todayHighlights: ReactChild[] = [];
     const topDefaultHeight = headerHeight * 0.5;
     const dates = dateSetup.dates;
+    const monthSegments: Array<{
+      month: number;
+      year: number;
+      startIdx: number;
+      endIdx: number;
+    }> = [];
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
       const bottomValue = dateFormatter?.formatDay
@@ -304,34 +309,47 @@ export const Calendar: React.FC<CalendarProps> = ({
           {bottomValue}
         </text>
       );
+      const lastSegment = monthSegments[monthSegments.length - 1];
       if (
-        i + 1 !== dates.length &&
-        date.getMonth() !== dates[i + 1].getMonth()
+        !lastSegment ||
+        lastSegment.month !== date.getMonth() ||
+        lastSegment.year !== date.getFullYear()
       ) {
-        const topValue = dateFormatter?.formatMonth
-          ? dateFormatter.formatMonth(date, locale)
-          : getLocaleMonth(date, locale);
-
-        topValues.push(
-          <TopPartOfCalendar
-            key={topValue + date.getFullYear()}
-            value={topValue}
-            x1Line={columnWidth * (i + 1)}
-            y1Line={0}
-            y2Line={topDefaultHeight}
-            xText={
-              columnWidth * (i + 1) -
-              getDaysInMonth(date.getMonth(), date.getFullYear()) *
-                columnWidth *
-                0.5
-            }
-            yText={headerHeight * 0.25}
-            lineColor={headerLineColor}
-            textColor={headerTextColor}
-          />
-        );
+        monthSegments.push({
+          month: date.getMonth(),
+          year: date.getFullYear(),
+          startIdx: i,
+          endIdx: i,
+        });
+      } else {
+        monthSegments[monthSegments.length - 1] = {
+          ...lastSegment,
+          endIdx: i,
+        };
       }
     }
+    monthSegments.forEach((segment) => {
+      const segmentDate = dates[segment.endIdx];
+      const topValue = dateFormatter?.formatMonth
+        ? dateFormatter.formatMonth(segmentDate, locale)
+        : getLocaleMonth(segmentDate, locale);
+      const segmentLength = segment.endIdx - segment.startIdx + 1;
+      const segmentCenter =
+        columnWidth * (segment.startIdx + segmentLength / 2);
+      topValues.push(
+        <TopPartOfCalendar
+          key={`${topValue}${segmentDate.getFullYear()}${segment.startIdx}`}
+          value={topValue}
+          x1Line={columnWidth * (segment.endIdx + 1)}
+          y1Line={0}
+          y2Line={topDefaultHeight}
+          xText={segmentCenter}
+          yText={headerHeight * 0.25}
+          lineColor={headerLineColor}
+          textColor={headerTextColor}
+        />
+      );
+    });
     return [topValues, bottomValues, todayHighlights];
   };
 
